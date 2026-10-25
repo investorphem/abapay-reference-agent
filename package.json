@@ -1,0 +1,18 @@
+{
+  "name": "abapay-reference-agent",
+  "version": "0.1.0",
+  "description": "A small open-source agent that pays real bills (airtime, data, electricity, cable) on Celo through AbaPay with x402 — with a spending cap and optional Self Agent ID.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=20.6" },
+  "scripts": {
+    "agent": "node --env-file-if-exists=.env src/cli.mjs",
+    "wallet": "node --env-file-if-exists=.env src/cli.mjs wallet",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
+    "abapay-sdk": "^0.5.0",
+    "viem": "^2.47.6"
+  }
+}
