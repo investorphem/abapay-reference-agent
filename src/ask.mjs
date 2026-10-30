@@ -22,7 +22,7 @@ const billSchema = {
 };
 
 const tools = [
-  { name: "get_wallet", description: "The paying wallet's address and its USDC/USDT balances on Celo.", input_schema: { type: "object", properties: {} } },
+  { name: "get_wallet", description: "The paying wallet's address and its USDC/USDT/USAT balances on Celo.", input_schema: { type: "object", properties: {} } },
   { name: "list_plans", description: "Plans (code, name, naira price) for a DATA, CABLE or EDUCATION service, e.g. mtn-data, dstv.", input_schema: { type: "object", properties: { service: { type: "string" } }, required: ["service"] } },
   { name: "quote", description: "The price in US dollars of a bill, without paying.", input_schema: billSchema },
   { name: "pay_bill", description: "Pay the bill. The person is asked to approve the exact price first; payments above the spending cap are refused.", input_schema: billSchema },
@@ -30,7 +30,7 @@ const tools = [
 
 export async function ask(request, { approve }) {
   const client = new Anthropic();
-  const system = `You are a bill-payment agent for Nigeria. You pay real bills from a Celo wallet through AbaPay, in USDC or USDT. The spending cap is $${maxUsd()} per payment. Check the price with quote before paying. For data, cable and education, pick a plan with list_plans. If something needed is missing (number, amount, network), ask instead of guessing. After paying, report the status, the price and the celoscan link.`;
+  const system = `You are a bill-payment agent for Nigeria. You pay real bills from a Celo wallet through AbaPay, in USDC, USDT or USAT (USA₮). The spending cap is $${maxUsd()} per payment. Check the price with quote before paying. For data, cable and education, pick a plan with list_plans. If something needed is missing (number, amount, network), ask instead of guessing. After paying, report the status, the price and the celoscan link.`;
   const messages = [{ role: "user", content: request }];
 
   for (let turn = 0; turn < 12; turn++) {

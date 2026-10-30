@@ -8,10 +8,11 @@ import { payBillViaX402, AbaPayError } from "abapay-sdk";
 
 export const ABAPAY = process.env.ABAPAY_URL || "https://agents.abapays.com";
 
-// Celo mainnet stablecoins AbaPay accepts over x402 (both 6 decimals, EIP-3009).
+// Celo mainnet stablecoins AbaPay accepts over x402 (all 6 decimals, EIP-3009). USAT is USA₮.
 export const TOKENS = {
   USDC: "0xcebA9300f2b948710d2653dD7B07f33A8B32118C",
   USDT: "0x48065fbBE25f71C9282ddf5e1cD6D6A887483D5e",
+  USAT: "0xD2ab3C9A02DBBAB236BfEC45D1d755DF4267F771",
 };
 
 const CATEGORIES = ["AIRTIME", "DATA", "ELECTRICITY", "CABLE", "EDUCATION"];
@@ -44,7 +45,7 @@ export function maxUsd() {
 
 export function defaultToken() {
   const t = String(process.env.TOKEN || "USDC").toUpperCase();
-  if (!(t in TOKENS)) throw new Error("TOKEN must be USDC or USDT.");
+  if (!(t in TOKENS)) throw new Error("TOKEN must be USDC, USDT or USAT.");
   return t;
 }
 
