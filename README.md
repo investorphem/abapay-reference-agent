@@ -3,7 +3,7 @@
 A small, open-source agent that pays real bills from its own Celo wallet: Nigerian airtime,
 mobile data, electricity, cable TV and exam PINs. It pays through
 [AbaPay](https://agents.abapays.com) with [x402](https://x402.org): it asks for the price, gets
-an HTTP 402 back, signs a USDC or USDT authorization for exactly that amount, and retries. There
+an HTTP 402 back, signs a USDC, USD₮ or USA₮ authorization for exactly that amount, and retries. There
 is no account, no API key and no CELO for gas.
 
 Use it as-is from the terminal, in plain English (Claude decides which tools to call), or as a
@@ -16,7 +16,7 @@ starting point for your own agent. MIT licensed.
 
 ## Quickstart (under 10 minutes)
 
-You need Node.js 20.6 or newer and about $1 of USDC or USDT on Celo.
+You need Node.js 20.6 or newer and about $1 of USDC, USD₮ or USA₮ on Celo.
 
 ```bash
 git clone https://github.com/investorphem/abapay-reference-agent
@@ -28,7 +28,7 @@ npm run agent -- new-wallet          # prints PRIVATE_KEY=… and an address
 ```
 
 1. Paste the `PRIVATE_KEY=…` line into `.env`.
-2. Send about $1 of **USDC or USDT on Celo** to the printed address (MiniPay, Valora, or any
+2. Send about $1 of **USDC, USD₮ or USA₮ on Celo** to the printed address (MiniPay, Valora, or any
    exchange that withdraws to Celo). You don't need CELO.
 3. Check it arrived, look at a price, then pay:
 
@@ -58,13 +58,13 @@ enforces the cap and asks you at the terminal before signing. The model never se
 | Command | What it does |
 | --- | --- |
 | `new-wallet` | Make a fresh key and address |
-| `wallet` | Address and USDC/USDT balances on Celo |
+| `wallet` | Address and USDC/USD₮/USA₮ balances on Celo |
 | `plans <service>` | Plans and prices, e.g. `mtn-data`, `dstv`, `waec` |
 | `quote <category> <service> <account> [naira] [--plan CODE]` | Price in dollars, without paying |
 | `pay <category> <service> <account> [naira] [--plan CODE] [--yes]` | Pay (within the cap) |
 | `ask "<request>"` | Plain-English request, via Claude |
 
-Options: `--token USDC|USDT`, `--phone N` (receipt phone for electricity and cable),
+Options: `--token USDC|USDT|USAT`, `--phone N` (receipt phone for electricity and cable),
 `--meter prepaid|postpaid`.
 
 Examples:

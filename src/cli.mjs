@@ -17,7 +17,7 @@ const HELP = `abapay-reference-agent — pay real bills on Celo through AbaPay (
   npm run agent -- ask "buy 100 naira of MTN airtime for 08031234567"
 
   category: airtime | data | electricity | cable | education
-  options:  --plan CODE  --token USDC|USDT  --phone N  --meter prepaid|postpaid  --yes
+  options:  --plan CODE  --token USDC|USDT|USAT  --phone N  --meter prepaid|postpaid  --yes
 
 Spending cap: MAX_USD in .env (now $${process.env.MAX_USD ?? 1}). Every payment shows its exact
 price and asks before signing unless --yes is given; nothing above the cap is ever signed.`;
@@ -52,7 +52,7 @@ async function main() {
   switch (cmd) {
     case "new-wallet": {
       const key = generatePrivateKey();
-      print(`PRIVATE_KEY=${key}\naddress: ${privateKeyToAccount(key).address}\n\nPut the line above in .env, then send about $1 of USDC or USDT to the address on Celo.`);
+      print(`PRIVATE_KEY=${key}\naddress: ${privateKeyToAccount(key).address}\n\nPut the line above in .env, then send about $1 of USDC, USDT or USAT (USA₮) to the address on Celo.`);
       return;
     }
     case "wallet":

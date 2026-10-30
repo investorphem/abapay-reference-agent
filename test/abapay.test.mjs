@@ -80,3 +80,16 @@ test("approved within the cap: signs and returns the celoscan link", async () =>
   assert.equal(r.celoscan, `https://celoscan.io/tx/${tx}`);
   assert.ok(calls[1].init.headers["X-PAYMENT"]);
 });
+
+test("TOKEN=USAT: picks USA₮ out of a multi-token 402 and pays with it", async () => {
+  process.env.TOKEN = "USAT";
+  const usdc = offer("eip155:42220", "0xcebA9300f2b948710d2653dD7B07f33A8B32118C", "USDC", "76758");
+  const usat = { ...offer("eip155:42220", "0xD2ab3C9A02DBBAB236BfEC45D1d755DF4267F771", "Tether America USD", "76700"), extra: { name: "Tether America USD", version: "1", primaryType: "TransferWithAuthorization" } };
+  const tx = "0x" + "cd".repeat(32);
+  stub([402, { x402Version: 2, error: "Payment required", accepts: [usdc, usat] }], [200, { success: true, status: "SUCCESS", tx_hash: tx, request_id: "r2" }]);
+  const r = await payBill({ category: "airtime", service: "mtn", account: "08031234567", naira: 100 });
+  assert.equal(r.ok, true);
+  assert.equal(r.price_usd, 0.0767);
+  const paid = JSON.parse(Buffer.from(calls.at(-1).init.headers["X-PAYMENT"], "base64").toString());
+  assert.equal(paid.payload.authorization.value, "76700");
+});
